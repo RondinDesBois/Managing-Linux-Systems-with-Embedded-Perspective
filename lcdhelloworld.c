@@ -13,7 +13,13 @@ int main()
 {
     int lcd;               
     wiringPiSetup();        
-    lcd = lcdInit (2, 16, 4, LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7, 0, 0, 0, 0);
+    lcd = lcdInit (2, 16, 4, LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7, 0, 0, 0, 0); // lcdInit do :
+    																						// -clear only the appropriate bits, not the whole PORT
+    																						// -Give some time to the LCD to start function properly
+    																						// -Send reset signal to the LCD
+        																					// -Specify the data lenght to 4 bits
+        																					// -Set cursor to move from left to right
+        																					// -Turn on display and set cursor off
                
     lcdPuts(lcd, "Hello, world!");   
 }
