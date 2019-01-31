@@ -1,4 +1,4 @@
-include <wiringPi.h>
+#include <wiringPi.h>
 #include <stdio.h>
 
 #define LedPin    0
