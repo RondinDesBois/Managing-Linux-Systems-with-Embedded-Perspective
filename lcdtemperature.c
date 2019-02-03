@@ -48,19 +48,20 @@ int main()
         																					// -Turn on display and set cursor off
 
     /*---------------------------*/
-    FICHIER = fopen("/sys/bus/w1/devices/10-0008031c2e96/w1_slave", "r+" );
+    FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r");
 
     if (FICHIER != NULL)
     {
-        do c = fgetc(FICHIER); 
+        do c = fgetc(FICHIER);
         while (c != '='); 
+	
         fscanf(FICHIER, "%d", &temp);
-        printf("%d\n", temp);
+        printf("decimal:%d\n", temp);
         fclose(FICHIER);
     }
     temperatureC = temp * 0.0001;
 
-    printf("%0.4f\n", temperatureC);
+    printf("float:%0.4f\n", temperatureC);
 
     /*---------------------------*/
     
