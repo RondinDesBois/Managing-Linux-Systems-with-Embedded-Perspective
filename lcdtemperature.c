@@ -68,7 +68,7 @@ int main()
     lcdPosition(lcd, 0, 0);
     lcdPrintf(lcd, "Temperature: ");
     lcdPosition(lcd, 0, 1);
-    lcdPrintf(lcd, tempe);
+    lcdPrintf(lcd, "%0.4f", temperatureC);
     
     return 0;
 }
