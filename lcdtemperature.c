@@ -54,7 +54,8 @@ int main()
     {
         do c = fgetc(FICHIER);
         while (c != '='); 
-	
+		do c = fgetc(FICHIER);
+        while (c != '='); 
         fscanf(FICHIER, "%d", &temp);
         printf("decimal:%d\n", temp);
         fclose(FICHIER);
