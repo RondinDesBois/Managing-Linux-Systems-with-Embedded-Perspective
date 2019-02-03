@@ -48,7 +48,7 @@ int main()
         																					// -Turn on display and set cursor off
 
     /*---------------------------*/
-    FICHIER = fopen("/sys/bus/w1/devices/10-0008031c2e96/w1_slave.txt", "r+" );
+    FICHIER = fopen("/sys/bus/w1/devices/10-0008031c2e96/w1_slave", "r+" );
 
     if (FICHIER != NULL)
     {
