@@ -52,21 +52,21 @@ int main()
     /*---------------------------*/
     while(1) { // infinit loop
 
-<<<<<<< HEAD
+
     	if(digitalRead(ButtonPin) == 0){
 		if(isbuttonperssed == 0) { //if button is pressed 
     		
     		isbuttonperssed = 1;
     		FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
-=======
+
     	if(digitalRead(ButtonPin) == 0) { //if button is pressed 
             if(isbuttonperssed == 0) {
->>>>>>> 4cfb4ea2d3d80512b38dd76014d985c7481d1b54
+
 
                 isbuttonperssed = 1;
                 FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
 
-<<<<<<< HEAD
+
 		        do c = fgetc(FICHIER);	// move the cursor into the file
 		        while (c != '='); 		// until he find the first '=' 
 				do c = fgetc(FICHIER);	// then until he find the 2nd '='
@@ -76,7 +76,6 @@ int main()
 		        fclose(FICHIER); // close the file
 			}
 		    
-=======
                 if (FICHIER != NULL) { // if the file is opened correctly
 
                     do c = fgetc(FICHIER);  // move the cursor into the file
@@ -89,7 +88,6 @@ int main()
 
                 }
 		    }
->>>>>>> 4cfb4ea2d3d80512b38dd76014d985c7481d1b54
 		    lcdPosition(lcd, 0, 0);
 		    lcdPrintf(lcd, "Temperature: ");
 		    lcdPosition(lcd, 0, 1);
