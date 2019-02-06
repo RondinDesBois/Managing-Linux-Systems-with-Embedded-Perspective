@@ -1,12 +1,12 @@
 #OPT= -g -Wall -Wextra -Werror -std=c99
-LIB= -wiringPi -wiringPiDev
+LIB= -lwiringPi -lwiringPiDev
 
 src = $(wildcard *.c)
 obj = $(src:.c=.o)
 
 myprog: $(obj)
-    $(CC) -o $@ $^ $(LIB) 
+	$(CC) -o $@ $^ $(LIB) 
 
 .PHONY: clean
 clean:
-    rm -f $(obj) myprog
+	rm -f $(obj) myprog
