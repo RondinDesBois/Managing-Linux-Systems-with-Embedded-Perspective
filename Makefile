@@ -1,32 +1,12 @@
-OPT= -g -Wall -Wextra -Werror -std=c99
+#OPT= -g -Wall -Wextra -Werror -std=c99
+LIB= -wiringPi -wiringPiDev
 
-all: kmoyennes
+src = $(wildcard *.c)
+obj = $(src:.c=.o)
 
-testConteneur: testConteneur.o conteneur.o
-	gcc $(OPT) $^ -o $@
+myprog: $(obj)
+    $(CC) -o $@ $^ $(LIB) 
 
-testClasseur: testClasseur.o classeur.o conteneur.o
-	gcc $(OPT) $^ -o $@
-
-kmoyennes: kmoyennes.o image.o classeur.o conteneur.o
-	gcc $(OPT) $^ -o $@
-
-conteneur.o: conteneur.h
-classeur.o: classeur.h
-
-%.o: %.c
-	gcc $(OPT) -c $<
-
-# Génération de l'archive
-.PHONY: archive
-archive: algo-kmoy.tar.gz
-
-algo-kmoy.tar.gz: $(wildcard *.c) $(wildcard *.h)
-	tar cvaf $@ --transform "s,,algo-kmoy/," $^
-
-# Ménage
+.PHONY: clean
 clean:
-	rm -f *.o testClasseur testConteneur kmoyennes
-
-distclean: clean
-	rm -f algo-kmoy.tar.gz *~
+    rm -f $(obj) myprog
