@@ -19,6 +19,8 @@
 #define LCD_D6  21               //Data pin 6
 #define LCD_D7  14               //Data pin 7
 
+#define ButtonPin 1
+
 static FILE* FICHIER = NULL; 
 
 
@@ -29,7 +31,7 @@ int main()
     char c;
     int temp;
     double temperatureC;
-
+    volatile short int isbuttonperssed = 0;
 
 
     wiringPiSetup(); // wiringPiSetup() do: 
@@ -48,29 +50,42 @@ int main()
         																					// -Turn on display and set cursor off
 
     /*---------------------------*/
-    FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r");
+    while(1) { // infinit loop
 
-    if (FICHIER != NULL)
-    {
-        do c = fgetc(FICHIER);
-        while (c != '='); 
-		do c = fgetc(FICHIER);
-        while (c != '='); 
-        fscanf(FICHIER, "%d", &temp);
-        printf("decimal:%d\n", temp);
-        fclose(FICHIER);
+    	if(digitalRead(ButtonPin) == 0 && isbuttonperssed == 0) { //if button is pressed 
+    		
+    		isbuttonperssed == 1;
+    		FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
+
+		    if (FICHIER != NULL) { // if the file is opened correctly
+
+		        do c = fgetc(FICHIER);	// move the cursor into the file
+		        while (c != '='); 		// until he find the first '=' 
+				do c = fgetc(FICHIER);	// then until he find the 2nd '='
+		        while (c != '='); 		
+		        fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
+		        //printf("decimal:%d\n", temp);
+		        fclose(FICHIER); // close the file
+
+		    }
+		    lcdPosition(lcd, 0, 0);
+		    lcdPrintf(lcd, "Temperature: ");
+		    lcdPosition(lcd, 0, 1);
+		    lcdPrintf(lcd, "%0.4f", temperatureC);
+		    temperatureC = temp * 0.0001; // put the . for have the right value
+
+    	} else isbuttonperssed == 0;
+    	
+
     }
-    temperatureC = temp * 0.0001;
 
-    printf("float:%0.4f\n", temperatureC);
+
+    printf("float:%0.4f\n", temperatureC); // print with 4 digit acruacy 
 
     /*---------------------------*/
     
 
-    lcdPosition(lcd, 0, 0);
-    lcdPrintf(lcd, "Temperature: ");
-    lcdPosition(lcd, 0, 1);
-    lcdPrintf(lcd, "%0.4f", temperatureC);
+
     
     return 0;
 }
