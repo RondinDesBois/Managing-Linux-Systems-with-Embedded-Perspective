@@ -31,7 +31,7 @@ int main()
     char c;
     int temp;
     double temperatureC;
-    volatile short int isbuttonperssed = 0;
+    short int isbuttonperssed = 0;
 
 
     wiringPiSetup(); // wiringPiSetup() do: 
@@ -54,7 +54,7 @@ int main()
 
     	if(digitalRead(ButtonPin) == 0 && isbuttonperssed == 0) { //if button is pressed 
     		
-    		isbuttonperssed == 1;
+    		isbuttonperssed = 1;
     		FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
 
 		    if (FICHIER != NULL) { // if the file is opened correctly
@@ -64,7 +64,7 @@ int main()
 				do c = fgetc(FICHIER);	// then until he find the 2nd '='
 		        while (c != '='); 		
 		        fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
-		        //printf("decimal:%d\n", temp);
+		        printf("decimal:%d\n", temp);
 		        fclose(FICHIER); // close the file
 
 		    }
@@ -74,8 +74,9 @@ int main()
 		    lcdPrintf(lcd, "%0.4f", temperatureC);
 		    temperatureC = temp * 0.0001; // put the . for have the right value
 
-    	} else isbuttonperssed == 0;
-    	
+    	} else {
+		 isbuttonperssed = 0;
+ 	   	}
 
     }
 
