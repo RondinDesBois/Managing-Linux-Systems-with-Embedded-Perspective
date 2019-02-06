@@ -52,7 +52,8 @@ int main()
     /*---------------------------*/
     while(1) { // infinit loop
 
-    	if(digitalRead(ButtonPin) == 0 && isbuttonperssed == 0) { //if button is pressed 
+    	if(digitalRead(ButtonPin) == 0){
+		if(isbuttonperssed == 0) { //if button is pressed 
     		
     		isbuttonperssed = 1;
     		FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
@@ -66,8 +67,8 @@ int main()
 		        fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
 		        printf("decimal:%d\n", temp);
 		        fclose(FICHIER); // close the file
-
-		    }
+			}
+		    
 		    lcdPosition(lcd, 0, 0);
 		    lcdPrintf(lcd, "Temperature: ");
 		    lcdPosition(lcd, 0, 1);
@@ -77,6 +78,7 @@ int main()
     	} else {
 		 isbuttonperssed = 0;
  	   	}
+	}
 
     }
 
