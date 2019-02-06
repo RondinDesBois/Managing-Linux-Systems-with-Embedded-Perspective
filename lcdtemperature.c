@@ -52,54 +52,31 @@ int main()
     /*---------------------------*/
     while(1) { // infinit loop
 
-
-    	if(digitalRead(ButtonPin) == 0){
-		if(isbuttonperssed == 0) { //if button is pressed 
-    		
-    		isbuttonperssed = 1;
-    		FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
-
     	if(digitalRead(ButtonPin) == 0) { //if button is pressed 
             if(isbuttonperssed == 0) {
-
-
-                isbuttonperssed = 1;
-                FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
-
-
-		        do c = fgetc(FICHIER);	// move the cursor into the file
-		        while (c != '='); 		// until he find the first '=' 
-				do c = fgetc(FICHIER);	// then until he find the 2nd '='
-		        while (c != '='); 		
-		        fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
-		        printf("decimal:%d\n", temp);
-		        fclose(FICHIER); // close the file
-			}
-		    
                 if (FICHIER != NULL) { // if the file is opened correctly
 
-                    do c = fgetc(FICHIER);  // move the cursor into the file
-                    while (c != '=');       // until he find the first '=' 
-                    do c = fgetc(FICHIER);  // then until he find the 2nd '='
-                    while (c != '=');       
-                    fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
-                    printf("decimal:%d\n", temp);
-                    fclose(FICHIER); // close the file
+                    isbuttonperssed = 1;
+                    FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
 
-                }
+    		        do c = fgetc(FICHIER);	// move the cursor into the file
+    		        while (c != '='); 		// until he find the first '=' 
+    				do c = fgetc(FICHIER);	// then until he find the 2nd '='
+    		        while (c != '='); 		
+    		        fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
+    		        printf("decimal:%d\n", temp);
+    		        fclose(FICHIER); // close the file
+			     }
+             lcdPosition(lcd, 0, 0);
+            lcdPrintf(lcd, "Temperature: ");
+            lcdPosition(lcd, 0, 1);
+            lcdPrintf(lcd, "%0.4f", temperatureC);
+            temperatureC = temp * 0.0001; // put the . for have the right value
 		    }
-		    lcdPosition(lcd, 0, 0);
-		    lcdPrintf(lcd, "Temperature: ");
-		    lcdPosition(lcd, 0, 1);
-		    lcdPrintf(lcd, "%0.4f", temperatureC);
-		    temperatureC = temp * 0.0001; // put the . for have the right value
-
     	} else {
 		 isbuttonperssed = 0;
  	   	}
 	}
-
-    }
 
 
     printf("float:%0.4f\n", temperatureC); // print with 4 digit acruacy 
