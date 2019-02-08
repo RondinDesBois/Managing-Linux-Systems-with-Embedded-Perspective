@@ -29,8 +29,8 @@ int main()
 {
     int lcd;
     char c;
-    int temp=0;
-    double temperatureC=0;
+    int temp;
+    double temperatureC;
     short int isbuttonperssed = 0;
 
 
@@ -50,42 +50,46 @@ int main()
         																					// -Turn on display and set cursor off
 
     /*---------------------------*/
-	while(1) { // infinit loop
+    while(1) { // infinit loop
 
-    		if(digitalRead(ButtonPin) == 0) { //if button is pressed
-			 
-			if(isbuttonperssed == 0) {
-				printf("pressed");
-				isbuttonperssed = 1;
-				FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
+    	if(digitalRead(ButtonPin) == 0) { //if button is pressed 
+		if(isbuttonperssed == 0) {
 
-				if (FICHIER != NULL) { // if the file is opened correctly
+			isbuttonperssed = 1;
+			FICHIER = fopen("/sys/devices/w1_bus_master1/10-0008031c2e96/w1_slave", "r"); //open a file
 
-    					do c = fgetc(FICHIER);	// move the cursor into the file
-    					while (c != '='); 		// until he find the first '=' 
-					do c = fgetc(FICHIER);	// then until he find the 2nd '='
-    		        		while (c != '=');
+			if (FICHIER != NULL) { // if the file is opened correctly
 
-    		        		fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
-    		        		printf("decimal:%d\n", temp);
-    		        		fclose(FICHIER); // close the file
-				} else printf("err opening file");
+    				do c = fgetc(FICHIER);	// move the cursor into the file
+    				while (c != '='); 		// until he find the first '=' 
+				do c = fgetc(FICHIER);	// then until he find the 2nd '='
+    		        	while (c != '=');
 
-				temperatureC = temp * 0.0001; // put the . for have the right value
-				lcdPosition(lcd, 0, 0);
+    		        	fscanf(FICHIER, "%d", &temp); // then take the decimal value after the cursor and put it into the variable temp
+    		        	printf("decimal:%d\n", temp);
+    		        	fclose(FICHIER); // close the file
+
+          			lcdPosition(lcd, 0, 0);
             			lcdPrintf(lcd, "Temperature: ");
             			lcdPosition(lcd, 0, 1);
             			lcdPrintf(lcd, "%0.4f", temperatureC);
+       				temperatureC = temp * 0.0001; // put the . for have the right value
 			}
 		}
 
-		else {
+    	else {
 		 isbuttonperssed = 0;
 		}
-	//printf("float:%0.4f\n", temperatureC); // print with 4 digit acruacy
 	}
+
+
     printf("float:%0.4f\n", temperatureC); // print with 4 digit acruacy 
+
     /*---------------------------*/
+    
+
+
+    
     return 0;
 }
 
